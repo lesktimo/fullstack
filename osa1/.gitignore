@@ -2,13 +2,14 @@
 
 # dependencies
 /node_modules
-
+*/node_modules
+*/.gitignore
 # testing
 /coverage
-
+*/coverage
 # production
 /build
-
+*/build
 # misc
 .DS_Store
 .env.local
