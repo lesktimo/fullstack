@@ -1,64 +1,48 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import App from './App'
 
-const Otsikko = (props) => (
-  <div>
-    <h1>{props.kurssi}</h1>
-  </div>
-)
-
-const Sisalto = (props) => (
-  <div>
-    <Osa osa={props.osat[0]} />
-    <Osa osa={props.osat[1]} />
-    <Osa osa={props.osat[2]} />
-  </div>
-)
-
-const Osa = (props) => (
-  <div>
-    <p>{props.osa.nimi} {props.osa.tehtavia}</p>
-  </div>
-)
-
-const Yhteensa = (props) => (
-  <div>
-    <p>Yhteensä {
-                  props.tehtavia[0].tehtavia + 
-                  props.tehtavia[1].tehtavia +
-                  props.tehtavia[2].tehtavia
-                } tehtävää</p>
-  </div>
-)
-
-const App = () => {
-  const kurssi = {
+const kurssit = [
+  {
     nimi: 'Half Stack -sovelluskehitys',
+    id: 1,
     osat: [
       {
         nimi: 'Reactin perusteet',
-        tehtavia: 10
+        tehtavia: 10,
+        id: 1
       },
       {
         nimi: 'Tiedonvälitys propseilla',
-        tehtavia: 7
+        tehtavia: 7,
+        id: 2
       },
       {
         nimi: 'Komponenttien tila',
-        tehtavia: 14
+        tehtavia: 14,
+        id: 3
+      }
+    ]
+  },
+  {
+    nimi: 'Node.js',
+    id: 2,
+    osat: [
+      {
+        nimi: 'Routing',
+        tehtavia: 3,
+        id: 1
+      },
+      {
+        nimi: 'Middlewaret',
+        tehtavia: 7,
+        id: 2
       }
     ]
   }
-  return (
-    <div>
-      <Otsikko kurssi={kurssi.nimi} />
-      <Sisalto osat={kurssi.osat} />
-      <Yhteensa tehtavia={kurssi.osat} />
-    </div>
-  )
-}
+]
 
 ReactDOM.render(
-  <App />,
+  <App kurssit={kurssit}/>,
   document.getElementById('root')
 )
