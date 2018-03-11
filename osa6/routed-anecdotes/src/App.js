@@ -1,12 +1,13 @@
 import React from 'react'
 import { ListGroup, Grid, Row, Col } from 'react-bootstrap'
 import { ListGroupItem } from 'react-bootstrap'
+import {BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const Menu = () => (
   <div>    
-    <a href='#'>anecdotes</a>&nbsp;
-    <a href='#'>create new</a>&nbsp;
-    <a href='#'>about</a>&nbsp;
+    <Link to='/'>anecdotes</Link>&nbsp;
+    <Link to='/create'>create new</Link>&nbsp;
+    <Link to='/about'>about</Link>&nbsp;
   </div>
 )
 
@@ -14,9 +15,28 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ListGroup>
-      {anecdotes.map(anecdote => <ListGroupItem key={anecdote.id} >{anecdote.content}</ListGroupItem>)}
+      {anecdotes.map(anecdote => 
+        <ListGroupItem key={anecdote.id} >
+          <Link to={`/anecdotes/${anecdote.id}`}>
+            {anecdote.content}
+          </Link>
+        </ListGroupItem>)}
     </ListGroup>  
   </div>
+)
+
+const Anecdote = ({ anecdote }) => (
+  <div>
+    <h2>{anecdote.content} by {anecdote.author}</h2>
+    <div>
+      <p>
+        has {anecdote.votes} votes
+      </p>
+      <p>
+        for more info see <a href={anecdote.info}>{anecdote.info}</a>
+      </p>
+    </div>
+  </div> 
 )
 
 const About = () => (
@@ -157,12 +177,19 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>Software anecdotes</h1>
-          <Menu />
-          <AnecdoteList anecdotes={this.state.anecdotes} />
-          <About />      
-          <CreateNew addNew={this.addNew}/>
-        <Footer />
+        <Router>
+          <div>
+            <h1>Software anecdotes</h1>
+              <Menu />
+              <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
+              <Route path="/about" render={() => <About />} />      
+              <Route path="/create" render={() => <CreateNew addNew={this.addNew} />} />
+              <Route exact path="/anecdotes/:id" render={({match}) =>
+                <Anecdote anecdote={this.anecdoteById(match.params.id)}/>
+              }/>
+            <Footer />
+          </div>
+        </Router>
       </div>
     );
   }
